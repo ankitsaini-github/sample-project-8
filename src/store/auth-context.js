@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-
+let logouttimer;
 const AuthContext = React.createContext({
   token: '',
   isLoggedIn: false,
@@ -16,11 +16,18 @@ export const AuthContextProvider = (props) => {
   const loginHandler = (token) => {
     setToken(token);
     localStorage.setItem('token', token);
+    logouttimer=setTimeout(()=>{
+      window.alert('AUTO LOGOUT : Login again !');
+      logoutHandler();
+    }, 300000);
   };
 
   const logoutHandler = () => {
     setToken(null);
     localStorage.removeItem('token');
+    if(logouttimer){
+      clearTimeout(logouttimer)
+    }
   };
 
   const contextValue = {
